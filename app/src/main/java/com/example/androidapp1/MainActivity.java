@@ -1,6 +1,8 @@
 package com.example.androidapp1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -14,28 +16,32 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    RadioButton showRb, hideRb;
     Button submitButton;
-    TextView output;
-    TextInputLayout inputLayout;
-    EditText input;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        showRb = findViewById(R.id.show_password_rb);
-        hideRb = findViewById(R.id.hide_password_rb);
         submitButton = findViewById(R.id.submit_button);
-        output = findViewById(R.id.output_text);
-        inputLayout = findViewById(R.id.textInputLayout);
-        input = inputLayout.getEditText();
+        InputFragment inputFragment = new InputFragment();
+        OutputFragment outputFragment = new OutputFragment();
+        loadFragment(inputFragment);
+        submitButton.setOnClickListener(view -> {
+            sendPassword(inputFragment.getInputLayout().getEditText().getText().toString(), outputFragment);
+            loadFragment(outputFragment);
+            submitButton.setVisibility(View.INVISIBLE);
+        });
+    }
 
-        submitButton.setOnClickListener(view -> output.setText(input.getText()));
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//frame_container is your layout name in xml file
+        transaction.replace(R.id.placeHolder, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-        showRb.setOnClickListener(view -> input.setTransformationMethod(null));
-
-        hideRb.setOnClickListener(view -> input.setTransformationMethod(PasswordTransformationMethod.getInstance()));
+    private void sendPassword(String password, OutputFragment outputFragment){
+        outputFragment.setPassword(password);
     }
 }
