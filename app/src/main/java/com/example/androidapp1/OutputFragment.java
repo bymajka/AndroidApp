@@ -14,21 +14,29 @@ import android.widget.TextView;
 public class OutputFragment extends Fragment {
 
     private TextView outputText;
+    private String textToDisplay;
+    private String defLine = "You didn't enter your password";
 
     public static OutputFragment newInstance() {
-        return new OutputFragment();
+        return new OutputFragment("");
     }
-
+    public OutputFragment(String textToDisplay){
+        this.textToDisplay = textToDisplay;
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View outputView = inflater.inflate(R.layout.fragment_output, container, false);
         outputText = outputView.findViewById(R.id.output);
-
+        setText();
         return outputView;
     }
 
-    public void setPassword(String password){
-        outputText.setText(password);
+    private void setText(){
+        if (textToDisplay != null && !textToDisplay.isEmpty()) {
+            outputText.setText(textToDisplay);
+        }
+        else
+            outputText.setText(defLine);
     }
 }

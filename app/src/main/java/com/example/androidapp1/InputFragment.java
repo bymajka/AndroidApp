@@ -45,4 +45,12 @@ public class InputFragment extends Fragment {
                 getEditText().setTransformationMethod(new PasswordTransformationMethod()));
         return inputView;
     }
+
+    public String getInputText() {
+        if (inputLayout.getEditText() != null) {
+            return inputLayout.getEditText().getText().toString();
+        } else {
+            return "";
+        }
+    }
 }
