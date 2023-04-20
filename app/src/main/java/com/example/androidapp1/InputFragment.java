@@ -15,14 +15,6 @@ import android.widget.RadioButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class InputFragment extends Fragment {
-    public TextInputLayout getInputLayout() {
-        return inputLayout;
-    }
-
-    public void setInputLayout(TextInputLayout inputLayout) {
-        this.inputLayout = inputLayout;
-    }
-
     private TextInputLayout inputLayout;
     private RadioButton showButton;
     private RadioButton hideButton;
@@ -46,11 +38,7 @@ public class InputFragment extends Fragment {
         return inputView;
     }
 
-    public String getInputText() {
-        if (inputLayout.getEditText() != null) {
-            return inputLayout.getEditText().getText().toString();
-        } else {
-            return "";
-        }
+    public String getInputText(){
+        return inputLayout.getEditText() != null ? inputLayout.getEditText().getText().toString() : "";
     }
 }

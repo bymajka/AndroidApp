@@ -29,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        outputFragment = new OutputFragment(inputFragment.getInputText());
-    }
-
     private void loadFragment(Fragment fragment, String tag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.placeHolder, fragment, tag);
@@ -43,20 +37,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSubmitButton(boolean show) {
-        if (show) {
-            submitButton.setVisibility(View.VISIBLE);
-        } else {
-            submitButton.setVisibility(View.INVISIBLE);
-        }
+        submitButton.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
     public void onBackPressed() {
         OutputFragment f = (OutputFragment) getSupportFragmentManager().findFragmentByTag("Output_Fragment");
-        if (f != null)
-            showSubmitButton(true);
-        else
-            showSubmitButton(false);
+        showSubmitButton(f != null);
         super.onBackPressed();
     }
 }
