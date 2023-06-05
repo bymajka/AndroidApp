@@ -18,6 +18,7 @@ public class InputFragment extends Fragment {
     private TextInputLayout inputLayout;
     private RadioButton showButton;
     private RadioButton hideButton;
+    private boolean hidden;
 
     public static InputFragment newInstance() {
         return new InputFragment();
@@ -31,14 +32,22 @@ public class InputFragment extends Fragment {
         showButton = inputView.findViewById(R.id.showButton);
         hideButton = inputView.findViewById(R.id.hideButton);
 
-        showButton.setOnClickListener(view -> inputLayout.
-                getEditText().setTransformationMethod(null));
-        hideButton.setOnClickListener(view -> inputLayout.
-                getEditText().setTransformationMethod(new PasswordTransformationMethod()));
+        showButton.setOnClickListener(view -> {
+            inputLayout.getEditText().setTransformationMethod(null);
+            hidden = false;
+        });
+        hideButton.setOnClickListener(view -> {inputLayout.
+                getEditText().setTransformationMethod(new PasswordTransformationMethod());
+            hidden = true;
+        });
         return inputView;
     }
 
     public String getInputText(){
         return inputLayout.getEditText() != null ? inputLayout.getEditText().getText().toString() : "";
+    }
+
+    public boolean Hidden() {
+        return hidden;
     }
 }
